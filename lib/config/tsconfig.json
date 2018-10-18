@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "../../public/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react",
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ],
+    "lib": ["es6", "dom"]
+  },
+  "include": ["../../app/**/*", "../**/*"],
+  "exclude": ["node_modules"]
+}
