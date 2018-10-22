@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node ./dist/lib/server.js",
-    "compile": "node ./lib/scripts/compile.js",
-    "dev": "tsc --p ./lib/config/tsconfig.server.json && npm run compile && concurrently \"tsc -w --p ./lib/config/tsconfig.server.json\" \"nodemon ./dist/lib/server.js\"",
-    "build": "tsc --p ./lib/config/tsconfig.server.json && npm run compile && webpack --config lib/config/webpack.js"
+    "start": "NODE_ENV=production node ./dist/lib/pux/server.js",
+    "compile": "node ./lib/pux/scripts/compile.js",
+    "dev": "tsc --p ./lib/pux/config/tsconfig.server.json && npm run compile && concurrently \"tsc -w --p ./lib/pux/config/tsconfig.server.json\" \"nodemon ./dist/lib/pux/server.js\"",
+    "build": "tsc --p ./lib/pux/config/tsconfig.server.json && npm run compile && webpack --config lib/pux/config/webpack.js"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.1",
@@ -42,8 +42,7 @@
     "styled-components": "^3.4.9",
     "typescript": "^3.0.3",
     "webpack-dev-middleware": "^3.3.0",
-    "webpack-hot-middleware": "^2.24.2",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-hot-middleware": "^2.24.2"
   },
   "devDependencies": {
     "@webpack-cli/init": "^0.1.0",
@@ -59,6 +58,7 @@
     "typescript-styled-plugin": "^0.11.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }

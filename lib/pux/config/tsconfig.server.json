@@ -3,12 +3,14 @@
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "../../public/",
-    "sourceMap": true,
-    "noImplicitAny": true,
     "module": "commonjs",
+    "esModuleInterop": true,
     "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
     "jsx": "react",
+    "outDir": "../../../dist",
     "plugins": [
       {
         "name": "typescript-styled-plugin"
@@ -16,6 +18,6 @@
     ],
     "lib": ["es6", "dom"]
   },
-  "include": ["../../app/**/*", "../**/*"],
+  "include": ["../../../app/**/*", "../../**/*"],
   "exclude": ["node_modules"]
 }

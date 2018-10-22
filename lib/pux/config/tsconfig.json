@@ -3,14 +3,12 @@
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
+    "outDir": "../../public/",
     "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
     "jsx": "react",
-    "outDir": "../../dist",
     "plugins": [
       {
         "name": "typescript-styled-plugin"

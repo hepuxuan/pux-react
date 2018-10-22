@@ -39,6 +39,7 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
       nextProps.location.pathname !== this.props.location.pathname ||
       nextProps.location.search !== this.props.location.search
     ) {
+      this.setState({ data: null });
       this.props.getData(nextProps.match).then(data => {
         this.setState({ data });
       });
