@@ -3,11 +3,11 @@ import { Route, Switch, match as Match } from "react-router-dom";
 import { AsyncRoute } from "./AsyncRoute";
 import { StaticContext, RouteComponentProps } from "react-router";
 import { Loader } from "./Loader";
-import router = require("../routes");
+import router from "../routes";
 
 const AppRoutes: React.SFC<{}> = () => (
   <Switch>
-    {router.map(({ component, path, resolve }) => (
+    {router.map(({ component, path, getInitialProps }) => (
       <Route
         key={path}
         path={path}
@@ -20,7 +20,7 @@ const AppRoutes: React.SFC<{}> = () => (
           return (
             <AsyncRoute
               component={component}
-              getData={resolve}
+              getData={getInitialProps}
               staticContext={staticContext}
               loader={Loader}
               {...props}

@@ -5,7 +5,7 @@ import { ServerStyleSheet } from "styled-components";
 import { StaticRouter, matchPath, StaticRouterContext } from "react-router";
 import serialize = require("serialize-javascript");
 import { getChunkHash } from "./chunkHash";
-import appRoutes = require("./routes");
+import appRoutes from "./routes";
 import { AppRoutes } from "./components/AppRoutes";
 
 const router = express.Router();
@@ -13,7 +13,7 @@ const router = express.Router();
 appRoutes.map(route => {
   router.get(route.path, (req, res, next) => {
     route
-      .resolve(
+      .getInitialProps(
         matchPath(req.url, {
           path: route.path,
           exact: true,

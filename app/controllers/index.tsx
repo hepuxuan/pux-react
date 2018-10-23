@@ -47,8 +47,8 @@ export default class Index extends React.Component<{
     ).then(res => res.json());
   }
 
-  public static resolve(match: Match) {
-    return Index.getNews((match.params as any).news);
+  public static getInitialProps(match: Match) {
+    return Index.getNews((match.params as any).news).then(data => ({ data }));
   }
 
   public componentDidMount() {

@@ -53,15 +53,16 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
       loader: Loader,
       ...props
     } = this.props;
+
     if (process.env.IS_BROWSER) {
       if (this.state.data) {
-        return <Component data={this.state.data} {...props} />;
+        return <Component {...this.state.data} {...props} />;
       } else {
         return <Loader />;
       }
     } else {
       const data = staticContext.data || {};
-      return <Component data={data} {...props} />;
+      return <Component {...data} {...props} />;
     }
   }
 }
