@@ -24,8 +24,8 @@ module.exports = {
 
   entry: {
     app: [
-      path.join(__dirname, "../polyfill.js"),
-      path.join(__dirname, "../client.js")
+      path.join(__dirname, "../polyfill.ts"),
+      path.join(__dirname, "../client.tsx")
     ]
     // vendors: [
     //   path.join(__dirname, "../src/client/polyfill.tsx"),

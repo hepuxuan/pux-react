@@ -21,7 +21,9 @@ app.use(cookieParser());
 if (process.env.NODE_ENV !== "production") {
   const webpack = require("webpack");
   const middleware = require("webpack-dev-middleware");
-  const compiler = webpack(require("./config/webpack.dev"));
+  const compiler = webpack(
+    require("../../../node_modules/pux-react/config/webpack.dev")
+  );
   app.use(
     middleware(compiler, {
       publicPath: "/webpack/"
@@ -29,7 +31,7 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-app.use(express.static(path.join(__dirname, "../public/")));
+app.use("/public", express.static(path.join(__dirname, "../../lib/public/")));
 
 app.use("/", indexRouter);
 app.use("/", apiRouter);

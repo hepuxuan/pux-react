@@ -2,15 +2,33 @@ const fs = require("fs");
 const path = require("path");
 const ncp = require("ncp").ncp;
 const mkdirp = require("mkdirp");
-
+// node_modules/pux-react/
 function compile() {
   return new Promise(resolve => {
-    mkdirp(path.resolve(__dirname, "../../../dist/lib/pux/"), err => {
+    mkdirp(path.resolve(__dirname, "../../../dist/"), err => {
       if (err) console.error(err);
       else {
+        try {
+          fs.mkdirSync(path.resolve(__dirname, "../../../dist/node_modules/"));
+          fs.mkdirSync(
+            path.resolve(__dirname, "../../../dist/node_modules/pux-react/")
+          );
+          fs.mkdirSync(path.resolve(__dirname, "../../../dist/app/"));
+        } catch (e) {
+          console.log(e);
+        }
+        ncp(
+          path.resolve(__dirname, "../../../app/public"),
+          path.resolve(__dirname, "../../../dist/app/public"),
+          function(err) {
+            if (err) {
+              return console.error(err);
+            }
+          }
+        );
         ncp(
           path.resolve(__dirname, "../views"),
-          path.resolve(__dirname, "../../../dist/lib/pux/views"),
+          path.resolve(__dirname, "../../../dist/node_modules/pux-react/views"),
           function(err) {
             if (err) {
               return console.error(err);
@@ -20,7 +38,10 @@ function compile() {
 
         ncp(
           path.resolve(__dirname, "../config"),
-          path.resolve(__dirname, "../../../dist/lib/pux/config"),
+          path.resolve(
+            __dirname,
+            "../../../dist/node_modules/pux-react/config"
+          ),
           function(err) {
             if (err) {
               return console.error(err);

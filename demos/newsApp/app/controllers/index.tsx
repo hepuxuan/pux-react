@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { proxy } from "../../lib/pux/proxy";
+import { proxy } from "pux-react";
 import fetch = require("isomorphic-fetch");
 import { match as Match, Link } from "react-router-dom";
 const fs = require("fs");
@@ -63,16 +63,17 @@ export default class Index extends React.Component<{
     return (
       <div>
         <div>
-          {this.state.testData
-            ? `this is from test.json file: ${this.state.testData.message}`
-            : null}
-        </div>
-        <div>
+          <img width={50} src="/public/icon.png" alt="news" />
           <Link to="/tech">tech</Link>
           &nbsp;
           <Link to="/sport">sport</Link>
         </div>
         <Title>News</Title>
+        <div>
+          {this.state.testData
+            ? `this is from test.json file: ${this.state.testData.message}`
+            : null}
+        </div>
         {this.props.data.articles.map(({ content, title }, index) => (
           <div key={index}>
             <h4>{title}</h4>
