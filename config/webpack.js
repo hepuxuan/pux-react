@@ -34,7 +34,7 @@ module.exports = {
 
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(__dirname, "../../../dist/public/webpack"),
+    path: path.resolve(__dirname, "../../../dist/app/public/webpack"),
     publicPath: "/webpack/"
   },
 

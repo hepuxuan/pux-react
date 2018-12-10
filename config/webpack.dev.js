@@ -38,7 +38,7 @@ module.exports = {
 
   output: {
     filename: "[name].dev.js",
-    path: path.resolve(__dirname, "../../public/dist"),
+    path: path.resolve(__dirname, "../../../dist/app/public/webpack"),
     publicPath: "/dist/"
   },
 

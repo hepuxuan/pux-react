@@ -32,7 +32,7 @@ export default class Index extends React.Component<{
     return (
       <div>
         <div>
-          <img width={50} src="/public/icon.png" alt="news" />
+          <img width={50} src="/public/icon.jpg" alt="news" />
           <Link to="/news/tech">tech</Link>
           &nbsp;
           <Link to="/news/sport">sport</Link>

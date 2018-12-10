@@ -31,7 +31,7 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-app.use("/public", express.static(path.join(__dirname, "../../public/")));
+app.use("/public", express.static(path.join(__dirname, "../../app/public/")));
 
 app.use("/", indexRouter);
 app.use("/", apiRouter);
