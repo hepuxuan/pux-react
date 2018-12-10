@@ -94,3 +94,14 @@ Any files placed under `app/public` folder will be served as static assets.
   ```
   
   Method decorated with proxy will be executed as regular function on the server side. However on the client, the arguments will be serialized as json and submitted as a RPC call to the server to let server handle the call, the response will again be serialized as json and return to the client
+  
+ ## TODO:
+
+  * Support css module
+  * Custom layout
+  * Custom server code
+  * HMR
+  * code split
+  * add test
+  * http2
+  * pwa
