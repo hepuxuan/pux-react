@@ -10,7 +10,7 @@
 
 * create your page index.tsx
   
-  ```
+  ```tsx
   import * as React from "react";
   export default class Index extends React.Component<{}> {
     public static path = "/"; // This is react router format path
@@ -43,7 +43,7 @@
 Go to demos/newsApp
 
 ## Data fetching
-```
+```tsx
   import * as React from "react";
   import { match as Match, Link } from "react-router-dom";
 
@@ -66,7 +66,7 @@ Any files placed under `app/public` folder will be served as static assets.
 
 ## sever specific code
 
-```
+```tsx
   import * as React from "react";
   import { proxy } from "pux-react";
 
