@@ -1,9 +1,10 @@
 import * as React from "react";
 import { RouteComponentProps, match as Match } from "react-router";
+import isFunction = require("lodash/isFunction");
 
 interface IProps extends RouteComponentProps {
   component: React.ComponentType<any>;
-  getData: (match: Match) => Promise<any>;
+  getData?: (match: Match) => Promise<any>;
   staticContext: any;
   loader: React.ComponentType;
 }
@@ -27,7 +28,7 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
   }
 
   componentDidMount() {
-    if (!this.state.data) {
+    if (!this.state.data && this.props.getData) {
       this.props.getData(this.props.match).then(data => {
         this.setState({ data });
       });
@@ -36,8 +37,9 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
 
   componentWillReceiveProps(nextProps: IProps) {
     if (
-      nextProps.location.pathname !== this.props.location.pathname ||
-      nextProps.location.search !== this.props.location.search
+      this.props.getData &&
+      (nextProps.location.pathname !== this.props.location.pathname ||
+        nextProps.location.search !== this.props.location.search)
     ) {
       this.setState({ data: null });
       this.props.getData(nextProps.match).then(data => {
@@ -55,10 +57,14 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
     } = this.props;
 
     if (process.env.IS_BROWSER) {
-      if (this.state.data) {
-        return <Component {...this.state.data} {...props} />;
+      if (isFunction(this.props.getData)) {
+        if (this.state.data) {
+          return <Component {...this.state.data} {...props} />;
+        } else {
+          return <Loader />;
+        }
       } else {
-        return <Loader />;
+        return <Component {...props} />;
       }
     } else {
       const data = staticContext.data || {};

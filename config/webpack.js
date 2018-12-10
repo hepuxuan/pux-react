@@ -100,7 +100,7 @@ module.exports = {
         }
 
         fs.writeFileSync(
-          path.join(__dirname, "../../../dist/lib/pux/assetsInfo.json"),
+          path.join(__dirname, "../../../assetsInfo.json"),
           JSON.stringify(assetsByChunkName)
         );
       });

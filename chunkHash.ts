@@ -1,9 +1,12 @@
 import fs = require("fs");
+import path = require("path");
 let chunkMap: any;
 
 if (process.env.NODE_ENV === "production") {
   chunkMap = JSON.parse(
-    fs.readFileSync(__dirname + "/assetsInfo.json").toString()
+    fs
+      .readFileSync(path.resolve(__dirname, "../../../assetsInfo.json"))
+      .toString()
   );
 } else {
   chunkMap = {

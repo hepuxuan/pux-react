@@ -3,11 +3,11 @@ import { Route, Switch, match as Match } from "react-router-dom";
 import { AsyncRoute } from "./AsyncRoute";
 import { StaticContext, RouteComponentProps } from "react-router";
 import { Loader } from "./Loader";
-import router from "../routes";
+import { routes } from "../routes";
 
 const AppRoutes: React.SFC<{}> = () => (
   <Switch>
-    {router.map(({ component, path, getInitialProps }) => (
+    {routes.map(({ component, path, getInitialProps }) => (
       <Route
         key={path}
         path={path}

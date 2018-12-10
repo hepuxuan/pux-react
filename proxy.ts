@@ -6,7 +6,8 @@ function proxy(
   descriptor: TypedPropertyDescriptor<any>
 ): any {
   const originalMethod = descriptor.value;
-  actionMap[`${(target as any).name}${originalMethod.name}`] = originalMethod;
+  actionMap[`${(target as any).path}-${originalMethod.name}`] = originalMethod;
+
   descriptor.value = function(...args: any[]) {
     if (process.env.IS_BROWSER) {
       return fetch("/api", {
@@ -15,7 +16,7 @@ function proxy(
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          action: `${(target as any).name}${originalMethod.name}`,
+          action: `${(target as any).path}-${propertyKey}`,
           params: [...arguments]
         })
       }).then(res => res.json());
