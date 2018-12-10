@@ -2,7 +2,7 @@
 
 * install dependencies
 
-  `npm install react react-dom react-router-dom pux`
+  `npm install react react-dom react-router-dom pux-react`
 
 * create `app/controllers` folder in your project
   
