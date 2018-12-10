@@ -12,8 +12,9 @@
   
   ```
   import * as React from "react";
-  export default class About extends React.Component<{}> {
-    public static path = "/";
+  export default class Index extends React.Component<{}> {
+    public static path = "/"; // This is react router format path
+    public static title = "Index"; // This is document.title
 
     public render() {
       return <div>Hello Pux</div>;
