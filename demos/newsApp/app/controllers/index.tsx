@@ -8,12 +8,13 @@ interface INews {
   content: string;
 }
 
-export default class Index extends React.Component<{
+export default class News extends React.Component<{
   data: {
     articles: INews[];
   };
 }> {
   public static path = "/news/:news";
+  public static title = "News";
 
   @proxy
   public static getNews(newsType: string) {
@@ -23,7 +24,7 @@ export default class Index extends React.Component<{
   }
 
   public static getInitialProps(match: Match) {
-    return Index.getNews((match.params as any).news).then(data => {
+    return News.getNews((match.params as any).news).then(data => {
       return { data };
     });
   }

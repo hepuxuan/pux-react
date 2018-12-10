@@ -12,12 +12,12 @@ import _ = require("lodash");
 const router = express.Router();
 
 routes.map(route => {
-  router.get(route.path, (req, res, next) => {
+  router.get(route.component.path, (req, res, next) => {
     let dataPromise;
-    if (_.isFunction(route.getInitialProps)) {
-      dataPromise = route.getInitialProps(
+    if (_.isFunction((route.component as any).getInitialProps)) {
+      dataPromise = (route.component as any).getInitialProps(
         matchPath(req.url, {
-          path: route.path,
+          path: route.component.path,
           exact: true,
           strict: false
         })
@@ -38,7 +38,7 @@ routes.map(route => {
       const styles = sheet.getStyleTags();
 
       res.render("index", {
-        title: "Express",
+        title: route.component.title,
         reactBody,
         styles,
         appHash: getChunkHash("app"),

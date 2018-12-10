@@ -7,10 +7,10 @@ import { routes } from "../routes";
 
 const AppRoutes: React.SFC<{}> = () => (
   <Switch>
-    {routes.map(({ component, path, getInitialProps }) => (
+    {routes.map(({ component }) => (
       <Route
-        key={path}
-        path={path}
+        key={component.path}
+        path={component.path}
         render={({
           staticContext,
           ...props
@@ -20,7 +20,6 @@ const AppRoutes: React.SFC<{}> = () => (
           return (
             <AsyncRoute
               component={component}
-              getData={getInitialProps}
               staticContext={staticContext}
               loader={Loader}
               {...props}

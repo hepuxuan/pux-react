@@ -70,9 +70,7 @@ function compile() {
           });
 
           const appRoutes = controllers.map(contoller => ({
-            component: contoller.moduleName,
-            path: `${contoller.moduleName}.path`,
-            getInitialProps: `${contoller.moduleName}.getInitialProps`
+            component: contoller.moduleName
           }));
 
           const jsCode = `

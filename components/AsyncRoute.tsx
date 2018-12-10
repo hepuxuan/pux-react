@@ -4,7 +4,6 @@ import isFunction = require("lodash/isFunction");
 
 interface IProps extends RouteComponentProps {
   component: React.ComponentType<any>;
-  getData?: (match: Match) => Promise<any>;
   staticContext: any;
   loader: React.ComponentType;
 }
@@ -24,27 +23,32 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
 
     if (process.env.IS_BROWSER) {
       delete window.__INITIAL_DATA__;
+      document.title = (this.props.component as any).title;
     }
   }
 
   componentDidMount() {
-    if (!this.state.data && this.props.getData) {
-      this.props.getData(this.props.match).then(data => {
-        this.setState({ data });
-      });
+    if (!this.state.data && (this.props.component as any).getInitialProps) {
+      (this.props.component as any)
+        .getInitialProps(this.props.match)
+        .then((data: any) => {
+          this.setState({ data });
+        });
     }
   }
 
   componentWillReceiveProps(nextProps: IProps) {
     if (
-      this.props.getData &&
+      (this.props.component as any).getInitialProps &&
       (nextProps.location.pathname !== this.props.location.pathname ||
         nextProps.location.search !== this.props.location.search)
     ) {
       this.setState({ data: null });
-      this.props.getData(nextProps.match).then(data => {
-        this.setState({ data });
-      });
+      (this.props.component as any)
+        .getInitialProps(nextProps.match)
+        .then((data: any) => {
+          this.setState({ data });
+        });
     }
   }
 
@@ -57,7 +61,7 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
     } = this.props;
 
     if (process.env.IS_BROWSER) {
-      if (isFunction(this.props.getData)) {
+      if (isFunction((this.props.component as any).getInitialProps)) {
         if (this.state.data) {
           return <Component {...this.state.data} {...props} />;
         } else {
