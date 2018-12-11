@@ -16,11 +16,12 @@ routes.map(route => {
     let dataPromise;
     if (_.isFunction((route.component as any).getInitialProps)) {
       dataPromise = (route.component as any).getInitialProps(
-        matchPath(req.url, {
+        matchPath(req.path, {
           path: route.component.path,
           exact: true,
           strict: false
-        })
+        }),
+        req.query
       );
     } else {
       dataPromise = Promise.resolve({});

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps, match as Match } from "react-router";
 import isFunction = require("lodash/isFunction");
+import { parse } from "qs";
 
 interface IProps extends RouteComponentProps {
   component: React.ComponentType<any>;
@@ -30,7 +31,7 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
   componentDidMount() {
     if (!this.state.data && (this.props.component as any).getInitialProps) {
       (this.props.component as any)
-        .getInitialProps(this.props.match)
+        .getInitialProps(this.props.match, parse(this.props.location.search))
         .then((data: any) => {
           this.setState({ data });
         });
@@ -45,7 +46,11 @@ class AsyncRoute extends React.Component<IProps, { data?: object }> {
     ) {
       this.setState({ data: null });
       (this.props.component as any)
-        .getInitialProps(nextProps.match)
+        .getInitialProps(
+          nextProps.match,
+          this.props.location.search,
+          parse(this.props.location.search)
+        )
         .then((data: any) => {
           this.setState({ data });
         });

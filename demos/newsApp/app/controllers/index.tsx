@@ -23,8 +23,9 @@ export default class News extends React.Component<{
     ).then(res => res.json());
   }
 
-  public static getInitialProps(match: Match) {
+  public static getInitialProps(match: Match, query: any) {
     return News.getNews((match.params as any).news).then(data => {
+      console.log({ match, query });
       return { data };
     });
   }
@@ -36,7 +37,7 @@ export default class News extends React.Component<{
           <img width={50} src="/public/icon.jpg" alt="news" />
           <Link to="/news/tech">tech</Link>
           &nbsp;
-          <Link to="/news/sport">sport</Link>
+          <Link to="/news/sport?q=a">sport</Link>
           &nbsp;
           <Link to="/about">about</Link>
         </div>
