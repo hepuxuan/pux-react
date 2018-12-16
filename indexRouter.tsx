@@ -5,19 +5,21 @@ import { ServerStyleSheet } from "styled-components";
 import { StaticRouter, matchPath, StaticRouterContext } from "react-router";
 import serialize = require("serialize-javascript");
 import { getChunkHash } from "./chunkHash";
-import { routes } from "./routes";
+const { routes } = require("./routes");
 import { AppRoutes } from "./components/AppRoutes";
 import _ = require("lodash");
 
 const router = express.Router();
 
-routes.map(route => {
-  router.get(route.component.path, (req, res, next) => {
+routes.map((routeDef: any) => {
+  const component = require(routeDef.importPath).default;
+  router.get(component.path, (req, res, next) => {
     let dataPromise;
-    if (_.isFunction((route.component as any).getInitialProps)) {
-      dataPromise = (route.component as any).getInitialProps(
+
+    if (_.isFunction((component as any).getInitialProps)) {
+      dataPromise = (component as any).getInitialProps(
         matchPath(req.path, {
-          path: route.component.path,
+          path: component.path,
           exact: true,
           strict: false
         }),
@@ -39,7 +41,7 @@ routes.map(route => {
       const styles = sheet.getStyleTags();
 
       res.render("index", {
-        title: route.component.title,
+        title: component.title,
         reactBody,
         styles,
         appHash: getChunkHash("app"),

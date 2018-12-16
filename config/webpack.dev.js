@@ -10,7 +10,8 @@ module.exports = {
           {
             loader: "ts-loader",
             options: {
-              configFile: require.resolve("./tsconfig.json")
+              configFile: require.resolve("./tsconfig.json"),
+              allowTsInNodeModules: true
             }
           }
         ]
@@ -39,7 +40,7 @@ module.exports = {
   output: {
     filename: "[name].dev.js",
     path: path.resolve(__dirname, "../../../dist/app/public/webpack"),
-    publicPath: "/dist/"
+    publicPath: "/public/webpack/"
   },
 
   resolve: {

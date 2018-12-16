@@ -3,11 +3,13 @@ const path = require("path");
 const ncp = require("ncp").ncp;
 const mkdirp = require("mkdirp");
 const rimraf = require("rimraf");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 function compile() {
   return new Promise(resolve => {
     rimraf(path.resolve(__dirname, "../../../dist/"), {}, () => {
-      mkdirp(path.resolve(__dirname, "../../../dist/"), err => {
+      mkdirp(path.resolve(__dirname, "../../../dist/"), async err => {
         if (err) console.error(err);
         else {
           try {
@@ -60,22 +62,29 @@ function compile() {
             path.resolve(__dirname, "../../../app/controllers")
           );
 
-          const controllers = routes.map((route, index) => {
-            const importName = route.replace(".tsx", "");
+          // pre compile
+          fs.writeFileSync(
+            path.resolve(__dirname, "../routes.js"),
+            `var routes = []; module.exports.routes = routes;`
+          );
 
-            return {
-              import: `var Route${index} = require("../../app/controllers/${importName}").default;`,
-              moduleName: `Route${index}`
-            };
-          });
-
-          const appRoutes = controllers.map(contoller => ({
-            component: contoller.moduleName
-          }));
+          await exec(
+            `${path.resolve(
+              __dirname,
+              "../../typescript/bin/tsc"
+            )} --p ${path.resolve(__dirname, "../config/tsconfig.server.json")}`
+          );
 
           const jsCode = `
-          ${controllers.map(controller => controller.import).join("")}
-          var routes = ${JSON.stringify(appRoutes).replace(/\"/g, "")};
+          var routes = [${routes
+            .map(route => {
+              const importName = route.replace(".tsx", "");
+              const module = require(`../../../dist/app/controllers/${importName}`);
+              return `{importPath: "../../app/controllers/${importName}", path: '${
+                module.default.path
+              }', importFunc: function() {return import("../../app/controllers/${importName}" /* webpackChunkName:"${importName}" */);}}`;
+            })
+            .join(",")}]
           module.exports.routes = routes;
           `;
 

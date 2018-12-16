@@ -1,20 +1,28 @@
 import * as React from "react";
 import { proxy } from "pux-react";
 import fetch = require("isomorphic-fetch");
-import { match as Match, Link } from "react-router-dom";
+import { match as Match, Link, withRouter } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
+import { parse } from "qs";
 
 interface INews {
   title: string;
   content: string;
 }
 
-export default class News extends React.Component<{
+interface IProps extends RouteComponentProps {
   data: {
     articles: INews[];
   };
-}> {
-  public static path = "/news/:news";
+}
+
+class News extends React.Component<IProps> {
+  public static path = "/news";
   public static title = "News";
+
+  state = {
+    data: this.props.data
+  };
 
   @proxy
   public static getNews(newsType: string) {
@@ -24,10 +32,19 @@ export default class News extends React.Component<{
   }
 
   public static getInitialProps(match: Match, query: any) {
-    return News.getNews((match.params as any).news).then(data => {
-      console.log({ match, query });
-      return { data };
-    });
+    return News.getNews(query.q).then(data => ({ data }));
+  }
+
+  componentWillUpdate(nextProps: IProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      return News.getNews(
+        parse(nextProps.location.search, { ignoreQueryPrefix: true }).q
+      ).then(data => {
+        this.setState({
+          data
+        });
+      });
+    }
   }
 
   public render() {
@@ -35,14 +52,14 @@ export default class News extends React.Component<{
       <div>
         <div>
           <img width={50} src="/public/icon.jpg" alt="news" />
-          <Link to="/news/tech">tech</Link>
+          <Link to="/news?q=tech">tech</Link>
           &nbsp;
-          <Link to="/news/sport?q=a">sport</Link>
+          <Link to="/news?q=sport">sport</Link>
           &nbsp;
           <Link to="/about">about</Link>
         </div>
         <h1>News</h1>
-        {this.props.data.articles.map(({ content, title }, index) => (
+        {this.state.data.articles.map(({ content, title }, index) => (
           <div key={index}>
             <h4>{title}</h4>
             <p key={title}>{content}</p>
@@ -52,3 +69,5 @@ export default class News extends React.Component<{
     );
   }
 }
+
+export default withRouter(News);

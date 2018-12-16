@@ -34,6 +34,7 @@
 - server side rendering
 - static assets serving
 - 0 config
+- Route based code split
 - start app in cluster mode in production environment
 - start app as daemon process in production environment
 - automatic data fetching
@@ -113,7 +114,6 @@ This will start the app as a daemon process.
 - Custom server code
 - Support custom config when starting in cluster mode
 - HMR
-- Code split
 - Add test
 - http2
 - Support PWA

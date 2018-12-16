@@ -3,7 +3,7 @@
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "../../public/",
+    "outDir": "../../../dist",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
@@ -17,6 +17,13 @@
     ],
     "lib": ["es6", "dom"]
   },
-  "include": ["../../app/**/*", "../**/*"],
-  "exclude": ["node_modules"]
+  "include": ["../../../app/**/*", "../**/*"],
+  "exclude": [
+    "node_modules",
+    "../scripts/build.js",
+    "../scripts/compile.js",
+    "../scripts/dev.js",
+    "../scripts/pux.js",
+    "../scripts/start.js"
+  ]
 }
