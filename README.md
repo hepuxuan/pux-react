@@ -1,3 +1,15 @@
+## Features
+
+- Typescript runtime
+- server side rendering
+- static assets serving
+- 0 config
+- Route based code split
+- start app in cluster mode in production environment
+- start app as daemon process in production environment
+- automatic data fetching
+- write client side and server side code in the same file
+
 ## How to use
 
 - install dependencies
@@ -27,18 +39,6 @@
   `"scripts": { "dev": "pux dev", "build": "pux build", "start": "pux start" }`
 
 - run `npm run dev` to start the app, go to `localhost:3000`
-
-## Features
-
-- Typescript runtime
-- server side rendering
-- static assets serving
-- 0 config
-- Route based code split
-- start app in cluster mode in production environment
-- start app as daemon process in production environment
-- automatic data fetching
-- write client side and server side code in the same file
 
 ## Demo App
 
