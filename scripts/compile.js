@@ -23,15 +23,17 @@ function compile() {
           } catch (e) {
             console.log(e);
           }
-          ncp(
-            path.resolve(__dirname, "../../../app/public"),
-            path.resolve(__dirname, "../../../dist/app/public"),
-            function(err) {
-              if (err) {
-                return console.error(err);
+          if (fs.existsSync(path.resolve(__dirname, "../../../app/public"))) {
+            ncp(
+              path.resolve(__dirname, "../../../app/public"),
+              path.resolve(__dirname, "../../../dist/app/public"),
+              function(err) {
+                if (err) {
+                  return console.error(err);
+                }
               }
-            }
-          );
+            );
+          }
           ncp(
             path.resolve(__dirname, "../views"),
             path.resolve(
