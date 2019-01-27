@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RouteComponentProps, match as Match } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import isFunction = require("lodash/isFunction");
 import { parse } from "qs";
 
@@ -73,31 +73,13 @@ class AsyncRoute extends React.Component<
     }
   }
 
-  // componentWillReceiveProps(nextProps: IProps) {
-  //   if (
-  //     (this.props.component as any).getInitialProps &&
-  //     (nextProps.location.pathname !== this.props.location.pathname ||
-  //       nextProps.location.search !== this.props.location.search)
-  //   ) {
-  //     this.setState({ data: null });
-  //     (this.props.component as any)
-  //       .getInitialProps(
-  //         nextProps.match,
-  //         parse(nextProps.location.search, { ignoreQueryPrefix: true })
-  //       )
-  //       .then((data: any) => {
-  //         this.setState({ data });
-  //       });
-  //   }
-  // }
-
   public render() {
     const { staticContext, loader: Loader, ...props } = this.props;
     const { component: Component } = this.state;
 
     if (process.env.IS_BROWSER) {
       if (!Component) {
-        return null;
+        return <Loader />;
       }
       if (isFunction((Component as any).getInitialProps)) {
         if (this.state.data) {

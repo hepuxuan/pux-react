@@ -87,10 +87,10 @@ function compile() {
               }', importFunc: function() {return import("../../app/controllers/${importName}" /* webpackChunkName:"${importName}" */);}}`;
             })
             .join(",")}]
-          module.exports.routes = routes;
+          module.exports = {routes};
           `;
 
-          fs.writeFileSync(path.resolve(__dirname, "../routes.js"), jsCode);
+          fs.writeFileSync(path.resolve(__dirname, "../routes.ts"), jsCode);
           resolve(true);
         }
       });

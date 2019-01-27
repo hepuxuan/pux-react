@@ -1,5 +1,12 @@
 import * as React from "react";
 
-const Loader: React.SFC = () => <div>Loading</div>;
+let Loader: React.ComponentType;
+
+try {
+  require.resolve("../../../app/components/Loader");
+  Loader = require("../../../app/components/Loader").default;
+} catch (e) {
+  Loader = () => <div>Loading</div>;
+}
 
 export { Loader };

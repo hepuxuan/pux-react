@@ -107,6 +107,20 @@ Method decorated with proxy will be executed as regular function on the server s
 
 This will start the app as a daemon process.
 
+## Custom Loader
+
+Create `Loader.tsx` file in `app/components` folder(This component will be used when fetching data and async route). Loader.tsx file should export the component as default.
+
+example:
+
+```tsx
+import * as React from "react";
+
+const Loader: React.SFC = () => <div>My Loader</div>;
+
+export default Loader;
+```
+
 ## TODO:
 
 - Support css module
