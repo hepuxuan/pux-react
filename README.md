@@ -8,7 +8,6 @@
 - start app in cluster mode in production environment
 - start app as daemon process in production environment
 - automatic data fetching
-- write client side and server side code in the same file
 
 ## How to use
 
@@ -20,7 +19,7 @@
 
   `mkdir -p app/controllers`
 
-* create your page index.tsx
+- create your page index.tsx
 
   ```tsx
   import * as React from "react";
@@ -69,35 +68,52 @@ Any files placed under `app/public` folder will be served as static assets.
 
 ## sever specific code
 
-```tsx
-  import * as React from "react";
-  import { proxy } from "pux-react";
+- Create file `/apis/index.ts`.
 
-  export default class Index extends React.Component<{}> {
-    ...
-    @proxy
-    public static readFile(fileName: string) {
-      const fs = require('fs')
-      return new Promise(function(resolve, reject){
-        fs.readFile(fileName, null, (err, data) => {
-            err ? reject(err) : resolve(data);
+- `/apis/index.ts` should export a default object with a list of methods. Example:
+
+  ```ts
+  function hello(hello: string) {
+    return Promise.resolve({
+      hello: `${hello} world`
+    });
+  }
+
+  export default {
+    hello
+  };
+  ```
+
+- In your component, you could access your api functions using `injectApi` HOC. Example:
+
+  ```tsx
+  import * as React from "react";
+  import { injectApi } from "pux-react";
+
+  interface IProps extends RouteComponentProps {
+    hello: (hello: string) => Promise<any>;
+  }
+
+  class Hello extends React.Component<IProps> {
+    public componentDidMount() {
+      this.props.hello("hello").then(hello => {
+        this.setState({
+          hello
         });
       });
     }
 
-    componentDidMount() {
-      Index.readFile('fileName').then(data => {
-        this.setState({data})
-      });
-    }
-    render() {
-      ...
+    public state = {
+      hello: ""
+    };
+
+    public render() {
+      return <div>{this.state.hellp}</div>;
     }
   }
 
-```
-
-Method decorated with proxy will be executed as regular function on the server side. However on the client, the arguments will be serialized as json and submitted as a RPC call to the server to let server handle the call, the response will again be serialized as json and return to the client
+  export default injectApi("hello")(Hello);
+  ```
 
 ## Run in production
 
@@ -131,3 +147,4 @@ export default Loader;
 - Add test
 - http2
 - Support PWA
+- docker??

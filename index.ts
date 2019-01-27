@@ -1,3 +1,1 @@
-import { proxy } from "./proxy";
-
-export { proxy };
+export { injectApi, getInjectedApiMethod } from "./inject";
