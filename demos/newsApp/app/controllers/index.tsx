@@ -1,6 +1,5 @@
 import * as React from "react";
-import { proxy } from "pux-react";
-import fetch = require("isomorphic-fetch");
+import { injectApi, getInjectedApiMethod } from "pux-react";
 import { match as Match, Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
 import { parse } from "qs";
@@ -14,7 +13,12 @@ interface IProps extends RouteComponentProps {
   data: {
     articles: INews[];
   };
+  getNews: (newsType: string) => Promise<any>;
 }
+
+const getNews = getInjectedApiMethod<(newsType: string) => Promise<any>>(
+  "getNews"
+);
 
 class News extends React.Component<IProps> {
   public static path = "/news";
@@ -24,26 +28,22 @@ class News extends React.Component<IProps> {
     data: this.props.data
   };
 
-  @proxy
-  public static getNews(newsType: string) {
-    return fetch(
-      `https://newsapi.org/v2/everything?q=${newsType}&sortBy=publishedAt&apiKey=e46c072e55ff446eb98bebcdae3d3a54`
-    ).then(res => res.json());
-  }
-
   public static getInitialProps(match: Match, query: any) {
-    return News.getNews(query.q).then(data => ({ data }));
+    return getNews(query.q).then(data => ({ data }));
   }
 
-  componentWillUpdate(nextProps: IProps) {
+  public componentWillUpdate(nextProps: IProps) {
     if (nextProps.location.search !== this.props.location.search) {
-      return News.getNews(
-        parse(nextProps.location.search, { ignoreQueryPrefix: true }).q
-      ).then(data => {
-        this.setState({
-          data
+      // get api methods using props
+      return this.props
+        .getNews(
+          parse(nextProps.location.search, { ignoreQueryPrefix: true }).q
+        )
+        .then(data => {
+          this.setState({
+            data
+          });
         });
-      });
     }
   }
 
@@ -70,4 +70,4 @@ class News extends React.Component<IProps> {
   }
 }
 
-export default withRouter(News);
+export default withRouter(injectApi("getNews")(News));
