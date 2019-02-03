@@ -10,7 +10,7 @@
     "start": "pux start"
   },
   "dependencies": {
-    "pux-react": "file:../../pux-react-0.0.0.tgz",
+    "pux-react": "file:../../pux-react-0.0.1.tgz",
     "react": ">=16.5.2",
     "react-dom": ">=16.5.2",
     "react-router-dom": ">=4.3.1"
