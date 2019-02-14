@@ -10,18 +10,18 @@ import _ = require("lodash");
 
 const router = express.Router();
 
-function getTemplatePart1(title: string) {
-  return `<!DOCTYPE html><html><head><title>${title}</title></head><body><div id="root">`;
-}
-
-function getTemplatePart2(
-  serverData: any,
+function getTemplatePart1(
+  title: string,
   chunkHash: string,
   vendorHash: string
 ) {
+  return `<!DOCTYPE html><html><head><title>${title}</title><script defer src="/public/webpack/${vendorHash}"></script><script defer src="/public/webpack/${chunkHash}"></script></head><body><div id="root">`;
+}
+
+function getTemplatePart2(serverData: any) {
   return `</div><script>window.__INITIAL_DATA__=${serialize(
     serverData
-  )}</script><script src="/public/webpack/${chunkHash}"></script><script src="/public/webpack/${vendorHash}"></script></body></html>`;
+  )}</script></body></html>`;
 }
 
 routes.map((routeDef: any) => {
@@ -42,7 +42,13 @@ routes.map((routeDef: any) => {
       dataPromise = Promise.resolve({});
     }
 
-    res.write(getTemplatePart1(component.title));
+    res.write(
+      getTemplatePart1(
+        component.title,
+        getChunkHash("app"),
+        getChunkHash("vendors")
+      )
+    );
 
     dataPromise.then((data: any) => {
       const stream = renderToNodeStream(
@@ -60,9 +66,7 @@ routes.map((routeDef: any) => {
       );
 
       stream.on("end", () => {
-        res.write(
-          getTemplatePart2(data, getChunkHash("app"), getChunkHash("vendors"))
-        );
+        res.write(getTemplatePart2(data));
         res.end();
       });
     });
